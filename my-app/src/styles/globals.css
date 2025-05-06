@@ -1,3 +1,7 @@
+@import 'slick-carousel/slick/slick.css';
+@import 'slick-carousel/slick/slick-theme.css';
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,4 +10,50 @@
   .btn-primary {
     @apply bg-primary hover:bg-primary-dark text-white transition-all;
   }
+
+  .custom-slick-carousel {
+    overflow: visible !important; /* Para que las tarjetas laterales sean completamente visibles */
+  }
+  
+  .custom-slick-carousel .slick-slide {
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+    opacity: 0.6;
+    transform: scale(0.8) translateX(20px); /* Ajusta el desplazamiento inicial */
+    z-index: 0;
+  }
+  
+  .custom-slick-carousel .slick-center {
+    opacity: 1;
+    transform: scale(1) translateX(0);
+    z-index: 1;
+  }
+  
+  .custom-slick-carousel .slick-slide.slick-active:not(.slick-center) {
+    opacity: 0.8; /* Ligeramente más opaco al entrar */
+  }
+  
+  .custom-slick-carousel .slick-slide:not(.slick-center) {
+    transform: perspective(800px) rotateY(30deg) scale(0.8); /* Efecto 3D */
+  }
+  
+  .custom-slick-carousel .slick-slide.slick-active:not(.slick-center).slick-next {
+    transform: perspective(800px) rotateY(-30deg) scale(0.8); /* Rotación opuesta para el siguiente */
+  }
+  
+  .slick-prev,
+  .slick-next {
+    z-index: 2;
+  }
+  
+  .slick-prev:before,
+  .slick-next:before {
+    font-size: 24px;
+    color: black;
+    opacity: 0.8;
+  }
+  
+  .service-card {
+    /* Asegura que el contenido interno esté posicionado */
+    position: relative;
+}
 }
