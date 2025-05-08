@@ -6,6 +6,7 @@ import Pricing from '../components/Pricing';
 import FAQ from '../components/FAQ';
 import Footer from '../components/Footer';
 import Testimonials from '../components/Testimonials';
+import AboutUs from '../components/AboutUs'; // Importa la sección "Acerca de Nosotros"
 import '../styles/globals.css';
 
 const App = () => {
@@ -16,8 +17,8 @@ const App = () => {
         <Hero />
         <Services />
         <Testimonials />
-        <Pricing />
-        <FAQ />
+        <Pricing />  
+        <AboutUs />
       </main>
       <Footer />
     </div>

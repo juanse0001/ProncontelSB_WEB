@@ -51,7 +51,21 @@ module.exports = {
           50: '#f9fafb',
           900: '#111827'
         }
-      }
+      },
+      keyframes: {
+        slideLeft: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-10px)' },
+        },
+        slideRight: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(10px)' },
+        },
+      },
+      animation: {
+        'slide-left': 'slideLeft 0.3s ease-in-out',
+        'slide-right': 'slideRight 0.3s ease-in-out',
+      },
     }
   }
 }

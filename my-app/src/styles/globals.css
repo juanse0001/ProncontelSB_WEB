@@ -1,6 +1,5 @@
-@import 'slick-carousel/slick/slick.css';
-@import 'slick-carousel/slick/slick-theme.css';
-
+@import "slick-carousel/slick/slick.css";
+@import "slick-carousel/slick/slick-theme.css";
 
 @tailwind base;
 @tailwind components;
@@ -14,46 +13,68 @@
   .custom-slick-carousel {
     overflow: visible !important; /* Para que las tarjetas laterales sean completamente visibles */
   }
-  
+
   .custom-slick-carousel .slick-slide {
     transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
     opacity: 0.6;
-    transform: scale(0.8) translateX(20px); /* Ajusta el desplazamiento inicial */
+    transform: scale(0.8) translateX(0); /* Ajuste: Eliminar desplazamiento inicial */
     z-index: 0;
+    transform-origin: center center; /* Asegura que la rotación sea desde el centro */
+    height: auto !important; /* Permite que la altura se ajuste al contenido */
   }
-  
+
+  .custom-slick-carousel .slick-slide > div { /* Contenedor directo de la tarjeta */
+    height: 100%; /* O una altura fija si lo prefieres, e.g., 350px */
+    display: flex;
+    flex-direction: column;
+  }
+
+  .custom-slick-carousel .slick-slide > div > div.flex-grow { /* Contenedor del contenido principal */
+    flex-grow: 1; /* Ocupa el espacio vertical restante */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Espacia el contenido interno */
+  }
+
   .custom-slick-carousel .slick-center {
     opacity: 1;
     transform: scale(1) translateX(0);
     z-index: 1;
   }
-  
+
   .custom-slick-carousel .slick-slide.slick-active:not(.slick-center) {
-    opacity: 0.8; /* Ligeramente más opaco al entrar */
+    opacity: 1; /* Ajuste: Tarjetas activas laterales completamente opacas */
   }
-  
-  .custom-slick-carousel .slick-slide:not(.slick-center) {
-    transform: perspective(800px) rotateY(30deg) scale(0.8); /* Efecto 3D */
+
+  /* Inclinación para las tarjetas a la IZQUIERDA del centro */
+  .custom-slick-carousel
+    .slick-slide.slick-active:not(.slick-center).slick-prev {
+    transform: perspective(800px) rotateY(30deg) scale(0.9); /* Ajuste: Rotación y escala */
   }
-  
-  .custom-slick-carousel .slick-slide.slick-active:not(.slick-center).slick-next {
-    transform: perspective(800px) rotateY(-30deg) scale(0.8); /* Rotación opuesta para el siguiente */
+
+  /* Inclinación para las tarjetas a la DERECHA del centro */
+  .custom-slick-carousel
+    .slick-slide.slick-active:not(.slick-center).slick-next {
+    transform: perspective(800px) rotateY(-30deg) scale(0.9); /* Ajuste: Rotación y escala */
   }
-  
+
   .slick-prev,
   .slick-next {
     z-index: 2;
+    color: #dc2626; /* Tailwind red-600 - ajusta si es necesario */
   }
-  
+
   .slick-prev:before,
   .slick-next:before {
     font-size: 24px;
-    color: black;
+    color: inherit;
     opacity: 0.8;
   }
-  
+
   .service-card {
     /* Asegura que el contenido interno esté posicionado */
     position: relative;
-}
+  }
+
+
 }

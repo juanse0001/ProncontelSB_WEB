@@ -20,7 +20,8 @@ const ImageCarousel = () => {
     { id: 1, src: '/assets/images/lluvia.jpg', alt: 'Imagen 1' },
     { id: 2, src: '/assets/images/PersonajePerzonalizado.jpg', alt: 'Imagen 2' },
     { id: 3, src: '/assets/images/Potente software contable ideal para pymes.jpg', alt: 'Imagen 3' },
-    // Agrega más imágenes aquí con sus rutas correctas
+    { id: 3, src: '/assets/images/factura.jpg', alt: 'Imagen 4' },
+
   ];
 
   return (
