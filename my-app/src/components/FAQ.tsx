@@ -1,6 +1,6 @@
 const FAQ = () => {
   return (
-    <section className="bg-gradient-to-r from-accent/10 to-primary/10 py-24">
+    <section id="faq" className="bg-gradient-to-r from-accent/10 to-primary/10 py-24">
       <div className="container mx-auto px-4 flex flex-col md:flex-row items-center">
         {/* Contenido de texto */}
         <div className="md:w-1/2">
