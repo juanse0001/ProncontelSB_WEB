@@ -1,0 +1,108 @@
+/* Estilos específicos para la página de blog */
+.aspect-w-16 {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+}
+
+.aspect-w-16 iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Estilos para las tarjetas de video */
+.video-card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Estilos para los botones de filtro */
+.filter-button-active {
+  background-color: #2563eb;
+  color: white;
+}
+
+.filter-button {
+  transition: all 0.2s ease-in-out;
+}
+
+.filter-button:hover:not(.filter-button-active) {
+  background-color: #f3f4f6;
+}
+
+/* Mejoras para móviles */
+@media (max-width: 768px) {
+  /* Mejorar el tamaño de los botones para facilitar el toque */
+  .filter-button {
+    padding: 0.5rem 1rem;
+    min-width: 80px;
+  }
+
+  /* Mejorar la legibilidad del texto en tarjetas */
+  .video-card-title {
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+
+  .video-card-description {
+    font-size: 0.875rem;
+    line-height: 1.4;
+  }
+
+  /* Mejorar el espaciado en tarjetas */
+  .video-card-padding {
+    padding: 1rem;
+  }
+
+  /* Mejorar la visualización de videos embebidos */
+  .mobile-video-container {
+    height: 240px;
+  }
+
+  /* Mejorar el contraste de los botones */
+  .mobile-button-contrast {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Mejorar la interacción táctil */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Mejoras para la carga de imágenes */
+.lazy-image {
+  transition: opacity 0.3s ease-in-out;
+}
+
+.lazy-image.loading {
+  opacity: 0;
+}
+
+.lazy-image.loaded {
+  opacity: 1;
+}
+
+/* Mejoras para el rendimiento */
+.hardware-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Mejoras para la accesibilidad */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

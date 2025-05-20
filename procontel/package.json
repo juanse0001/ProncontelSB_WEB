@@ -1,0 +1,39 @@
+{
+  "name": "procontel",
+  "version": "1.0.0",
+  "description": "Procontel SB - Soluciones de facturación electrónica",
+  "scripts": {
+    "start": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "backend": "cd backend && npm run dev",
+    "frontend": "next dev",
+    "install-all": "npm install && cd backend && npm install"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "autoprefixer": "^10.4.14",
+    "concurrently": "^8.2.2",
+    "postcss": "^8.4.24",
+    "tailwindcss": "^3.3.2",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@types/next-auth": "3.13.0",
+    "bcryptjs": "3.0.2",
+    "clsx": "2.1.1",
+    "cors": "2.8.5",
+    "dotenv": "16.5.0",
+    "express": "5.1.0",
+    "express-async-handler": "1.2.0",
+    "framer-motion": "12.11.3",
+    "jsonwebtoken": "9.0.2",
+    "next": "^13.0.0",
+    "next-auth": "4.24.11",
+    "nodemailer": "7.0.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hot-toast": "2.5.2",
+    "react-icons": "5.5.0"
+  }
+}

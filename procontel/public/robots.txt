@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://procontel-sb.vercel.app
+
+# Sitemaps
+Sitemap: https://procontel-sb.vercel.app/sitemap.xml
