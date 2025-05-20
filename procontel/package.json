@@ -6,7 +6,8 @@
     "start": "concurrently \"npm run backend\" \"npm run frontend\"",
     "backend": "cd backend && npm run dev",
     "frontend": "next dev",
-    "install-all": "npm install && cd backend && npm install"
+    "install-all": "npm install && cd backend && npm install",
+    "build": "next build"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",
