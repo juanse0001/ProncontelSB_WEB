@@ -63,3 +63,8 @@ app/
 
 # backend/node_modules/
 **/node_modules/
+
+
+.env
+.env.local
+.env.*.local

@@ -33,8 +33,11 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Conectar a MongoDB
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/procontel')
-  .then(() => {})
+  .then(() => {
+    console.log('\x1b[32m%s\x1b[0m', '✅ Conexión exitosa a MongoDB');
+  })
   .catch(err => {
+    console.error('\x1b[31m%s\x1b[0m', '❌ Error al conectar con MongoDB:', err.message);
     process.exit(1);
   });
 
@@ -80,4 +83,7 @@ app.use((err, req, res, next) => {
 });
 
 const PORT = process.env.PORT || 7000;
-app.listen(PORT, () => {});
+app.listen(PORT, () => {
+    console.log('\x1b[32m%s\x1b[0m', `🚀 Servidor backend iniciado en el puerto ${PORT}`);
+    console.log('\x1b[36m%s\x1b[0m', `📚 Documentación API disponible en: http://localhost:${PORT}/api-docs`);
+});
