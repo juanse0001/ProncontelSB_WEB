@@ -3,16 +3,10 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
 
-// En una aplicación real, esto vendría de una base de datos.
-// Contraseña 'adminpassword' hasheada con bcrypt.hashSync('adminpassword', 10)
-const mockAdminUsers = [
-    {
-        id: 'admin001',
-        email: 'admin@example.com',
-        passwordHash: '$2b$10$ZDCcabcFQXh2IHuwWPc5D.MckS84FuqG1rnphuXVCcIYgiBvKKOry', // Hash para 'adminpassword'
-        role: 'admin'
-    }
-];
+// Las credenciales deben venir de variables de entorno
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
+const ADMIN_PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH;
+const ADMIN_ID = process.env.ADMIN_ID;
 
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
@@ -21,22 +15,21 @@ router.post('/login', async (req, res) => {
         return res.status(400).json({ message: 'Email y contraseña son requeridos.' });
     }
 
-    const adminUser = mockAdminUsers.find(user => user.email === email);
-
-    if (!adminUser) {
+    // Verificar si las credenciales coinciden con las variables de entorno
+    if (email !== ADMIN_EMAIL) {
         return res.status(401).json({ message: 'Credenciales inválidas.' });
     }
 
-    const isPasswordMatch = await bcrypt.compare(password, adminUser.passwordHash);
+    const isPasswordMatch = await bcrypt.compare(password, ADMIN_PASSWORD_HASH);
 
     if (!isPasswordMatch) {
         return res.status(401).json({ message: 'Credenciales inválidas.' });
     }
 
     const tokenPayload = {
-        id: adminUser.id,
-        email: adminUser.email,
-        role: adminUser.role
+        id: ADMIN_ID,
+        email: ADMIN_EMAIL,
+        role: 'admin'
     };
 
     const token = jwt.sign(
