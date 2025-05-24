@@ -3,11 +3,13 @@
   "version": "1.0.0",
   "description": "Procontel SB - Soluciones de facturación electrónica",
   "scripts": {
-    "start": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "start": "next start",
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
     "backend": "cd backend && npm run dev",
     "frontend": "next dev",
     "install-all": "npm install && cd backend && npm install",
-    "build": "next build"
+    "build": "next build",
+    "postinstall": "cd backend && npm install"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",
