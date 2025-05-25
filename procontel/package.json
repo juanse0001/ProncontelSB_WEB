@@ -4,11 +4,13 @@
   "description": "Procontel SB - Soluciones de facturación electrónica",
   "scripts": {
     "start": "next start",
-    "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
-    "backend": "cd backend && npm run dev",
-    "frontend": "next dev",
-    "install-all": "npm install && cd backend && npm install",
+    "dev": "next dev",
     "build": "next build",
+    "lint": "next lint",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "next dev",
+    "dev:all": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "install-all": "npm install && cd backend && npm install",
     "postinstall": "cd backend && npm install"
   },
   "devDependencies": {
