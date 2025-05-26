@@ -18,7 +18,7 @@ const Footer = () => {
                   className="text-base md:text-lg hover:text-accent-300 active:text-accent-400"
                   aria-label="Contactar por WhatsApp"
                 >
-                  +57 3148809351
+                  +57 3114678137
                 </a>
               </li>
               <li className="flex items-center transition-colors duration-300">
