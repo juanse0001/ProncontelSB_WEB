@@ -3,8 +3,20 @@
 import { useState, useEffect, useRef } from "react"
 import { useIsMobile } from "../hooks/useIsMobile"
 import { motion, AnimatePresence } from "framer-motion"
+import React, { type TouchEvent } from 'react';
 
-const servicios = [
+// Definimos un tipo para los servicios
+interface Servicio {
+  icon: JSX.Element;
+  title: string;
+  description: string;
+  link: string;
+  color: "blue" | "green" | "red" | "purple" | "orange" | "teal";
+  image: string;
+  modalDescription?: string; // Descripción detallada para el modal
+}
+
+const servicios: Servicio[] = [
   {
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -18,6 +30,7 @@ const servicios = [
     ),
     title: "Facturación electrónica",
     description: "Emisión y gestión de documentos electrónicos con validación DIAN",
+    modalDescription: "Emite y gestiona facturas electrónicas, notas crédito, notas débito y otros documentos electrónicos cumpliendo con todos los requisitos técnicos y legales de la DIAN.",
     link: "/facturacion-electronica",
     color: "blue",
     image:
@@ -36,6 +49,7 @@ const servicios = [
     ),
     title: "POS Integrado",
     description: "Sistema punto de venta con sincronización en tiempo real",
+    modalDescription: "Agiliza tus ventas en puntos físicos con nuestro sistema POS integrado. Conecta fácilmente con tu inventario y sistema de facturación electrónica para una operación fluida.",
     link: "/pos-integrado",
     color: "green",
     image:
@@ -54,6 +68,7 @@ const servicios = [
     ),
     title: "Nómina electrónica",
     description: "Gestión automatizada de liquidación y pagos",
+    modalDescription: "Genera, transmite y gestiona tus nóminas electrónicas de forma sencilla y segura, cumpliendo con la normativa vigente y facilitando el pago a tus empleados.",
     link: "/nomina-electronica",
     color: "red",
     image:
@@ -72,6 +87,7 @@ const servicios = [
     ),
     title: "Documentos soporte",
     description: "Administración de facturas, notas crédito y débito",
+    modalDescription: "Administra eficientemente tus documentos soporte, facturas de proveedores y otros documentos necesarios para tu contabilidad y cumplimiento fiscal.",
     link: "/documentos-soporte",
     color: "purple",
     image:
@@ -90,6 +106,7 @@ const servicios = [
     ),
     title: "Gestión de inventario",
     description: "Control preciso con alertas de stock mínimo",
+    modalDescription: "Lleva un control detallado de tus productos, gestiona entradas y salidas, y recibe alertas de stock para optimizar tus niveles de inventario y evitar pérdidas.",
     link: "/inventario",
     color: "orange",
     image:
@@ -108,6 +125,7 @@ const servicios = [
     ),
     title: "Analítica avanzada",
     description: "Reportes personalizados y dashboards interactivos",
+    modalDescription: "Accede a reportes detallados y dashboards interactivos para obtener información clave sobre tus ventas, inventario y finanzas, facilitando la toma de decisiones estratégicas.",
     link: "/analitica-avanzada",
     color: "teal",
     image:
@@ -115,8 +133,17 @@ const servicios = [
   },
 ]
 
-const getColorClass = (color) => {
-  const colorMap = {
+// Definimos un tipo para el colorMap
+interface ColorClasses {
+  bg: string;
+  text: string;
+  hover: string;
+  border: string;
+  button: string;
+}
+
+const getColorClass = (color: Servicio['color']): ColorClasses => {
+  const colorMap: Record<Servicio['color'], ColorClasses> = {
     blue: {
       bg: "bg-blue-100",
       text: "text-blue-600",
@@ -165,101 +192,102 @@ const getColorClass = (color) => {
 }
 
 const CarruselDeServicios = () => {
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const [touchStart, setTouchStart] = useState(0)
-  const [touchEnd, setTouchEnd] = useState(0)
-  const [isAnimating, setIsAnimating] = useState(false)
-  const intervalRef = useRef(null)
-  const isMobile = useIsMobile()
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [modalServiceIndex, setModalServiceIndex] = useState<number | null>(null); // Usamos un índice para saber qué modal abrir
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const isMobile = useIsMobile();
 
   // Número de tarjetas a mostrar según el tamaño de la pantalla
-  const getCardsToShow = () => {
+  const getCardsToShow = (): number => {
     if (typeof window !== "undefined") {
-      if (window.innerWidth < 640) return 1
-      if (window.innerWidth < 1024) return 2
-      return 3
+      if (window.innerWidth < 640) return 1;
+      if (window.innerWidth < 1024) return 2;
+      return 3;
     }
-    return 3 // Default para SSR
-  }
+    return 3; // Default para SSR
+  };
 
-  const [cardsToShow, setCardsToShow] = useState(3)
+  const [cardsToShow, setCardsToShow] = useState(getCardsToShow());
 
   useEffect(() => {
     const handleResize = () => {
-      setCardsToShow(getCardsToShow())
-    }
+      setCardsToShow(getCardsToShow());
+    };
 
-    // Establecer valor inicial
-    handleResize()
+    window.addEventListener("resize", handleResize);
 
-    // Agregar event listener
-    window.addEventListener("resize", handleResize)
-
-    // Iniciar auto-rotación
     intervalRef.current = setInterval(() => {
       if (!isAnimating) {
-        nextSlide()
+        nextSlide();
       }
-    }, 5000)
+    }, 5000);
 
     return () => {
-      window.removeEventListener("resize", handleResize)
+      window.removeEventListener("resize", handleResize);
       if (intervalRef.current) {
-        clearInterval(intervalRef.current)
+        clearInterval(intervalRef.current);
       }
-    }
-  }, [isAnimating])
+    };
+  }, [isAnimating]);
 
   const nextSlide = () => {
-    if (isAnimating) return
+    if (isAnimating) return;
 
-    setIsAnimating(true)
+    setIsAnimating(true);
     setCurrentIndex((prevIndex) => {
-      const newIndex = prevIndex + 1
-      return newIndex >= servicios.length - cardsToShow + 1 ? 0 : newIndex
-    })
+      const newIndex = prevIndex + 1;
+      return newIndex >= servicios.length - cardsToShow + 1 ? 0 : newIndex;
+    });
 
-    setTimeout(() => setIsAnimating(false), 500)
-  }
+    setTimeout(() => setIsAnimating(false), 500);
+  };
 
   const prevSlide = () => {
-    if (isAnimating) return
+    if (isAnimating) return;
 
-    setIsAnimating(true)
+    setIsAnimating(true);
     setCurrentIndex((prevIndex) => {
-      const newIndex = prevIndex - 1
-      return newIndex < 0 ? servicios.length - cardsToShow : newIndex
-    })
+      const newIndex = prevIndex - 1;
+      return newIndex < 0 ? servicios.length - cardsToShow : newIndex;
+    });
 
-    setTimeout(() => setIsAnimating(false), 500)
-  }
+    setTimeout(() => setIsAnimating(false), 500);
+  };
 
   // Manejadores táctiles para swipe en móvil
-  const handleTouchStart = (e) => {
-    setTouchStart(e.targetTouches[0].clientX)
-  }
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
 
-  const handleTouchMove = (e) => {
-    setTouchEnd(e.targetTouches[0].clientX)
-  }
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
 
   const handleTouchEnd = () => {
     if (touchStart - touchEnd > 50) {
-      // Swipe left
-      nextSlide()
+      nextSlide();
     }
 
     if (touchStart - touchEnd < -50) {
-      // Swipe right
-      prevSlide()
+      prevSlide();
     }
-  }
+  };
 
-  const manejarIrAInventario = () => {
-    window.location.href = "/inventario"
-  }
+  // Función para abrir el modal con el índice del servicio
+  const openModal = (index: number) => {
+    setModalServiceIndex(index);
+  };
 
-  const visibleServices = servicios.slice(currentIndex, currentIndex + cardsToShow)
+  // Función para cerrar el modal
+  const closeModal = () => {
+    setModalServiceIndex(null);
+  };
+
+  const visibleServices = servicios.slice(currentIndex, currentIndex + cardsToShow);
+  const currentService = modalServiceIndex !== null ? servicios[modalServiceIndex] : null; // Obtener el servicio actual para el modal
 
   return (
     <div
@@ -268,6 +296,62 @@ const CarruselDeServicios = () => {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
+      {/* Modal dinámico para servicios */}
+      <AnimatePresence>
+        {currentService && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={closeModal} // Cerrar modal al hacer clic fuera
+          >
+            <motion.div
+              className="bg-white rounded-lg p-6 md:p-8 max-w-lg mx-4 relative"
+              initial={{ y: -50, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 50, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              onClick={(e) => e.stopPropagation()} // Prevenir que el clic dentro del modal cierre el modal
+            >
+              {/* Botón de cerrar */}
+              <button
+                onClick={closeModal}
+                className="absolute top-3 right-3 text-gray-500 hover:text-gray-800"
+                aria-label="Cerrar modal"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+
+              {/* Contenido del modal */}
+              <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-4">{currentService.title}</h3>
+              <p className="text-gray-600 mb-6">
+                {currentService.modalDescription || currentService.description} {/* Usar descripción del modal si existe, si no, la descripción normal */}
+              </p>
+
+              {/* Botón de Comenzar/Ver Más detalles */}
+              <button
+                onClick={() => {
+                  const message = encodeURIComponent(`Estoy interesado en el servicio de ${currentService.title}.`);
+                  window.location.href = `/contacto?message=${message}`;
+                }}
+                className={`${getColorClass(currentService.color).button} text-white px-6 py-2 rounded-lg font-medium hover:opacity-90 transition-opacity duration-300`}
+              >
+                 {currentService.title === "POS Integrado" ? "Pruébalo 100% gratis" : "Comenzar ahora"}
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Botones de navegación mejorados */}
       <button
         onClick={prevSlide}
@@ -337,30 +421,12 @@ const CarruselDeServicios = () => {
                       <p className="text-gray-600 leading-relaxed text-sm md:text-base">{servicio.description}</p>
                     </div>
                     <div className="p-4 bg-gray-50 border-t border-gray-100 text-center">
-                      {servicio.title === "Gestión de inventario" ? (
-                        <button
-                          onClick={manejarIrAInventario}
-                          className={`${colorClasses.button} text-white px-4 md:px-6 py-2 rounded-lg text-sm font-medium focus:outline-none transition-all duration-300 transform hover:scale-105 active:scale-95`}
-                        >
-                          Pruébalo 100% gratis
-                        </button>
-                      ) : (
-                        <a
-                          href={servicio.link}
-                          className={`${colorClasses.text} hover:underline text-sm font-medium focus:outline-none transition-colors duration-300 inline-flex items-center`}
-                        >
-                          Ver más detalles
-                          <svg
-                            className="w-4 h-4 ml-1"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7"></path>
-                          </svg>
-                        </a>
-                      )}
+                      <button
+                        onClick={() => openModal(servicios.findIndex(s => s.title === servicio.title))}
+                        className={`${getColorClass(servicio.color).button} text-white px-4 md:px-6 py-2 rounded-lg text-sm font-medium focus:outline-none transition-all duration-300 transform hover:scale-105 active:scale-95`}
+                      >
+                         {servicio.title === "POS Integrado" ? "Pruébalo 100% gratis" : "Ver más detalles"}
+                      </button>
                     </div>
                   </div>
                 </motion.div>

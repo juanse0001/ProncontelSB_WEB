@@ -71,6 +71,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <title>Procontel SB - Soluciones de Facturación Electrónica</title>
+        <link rel="icon" href="/LogoFavIcon.png" sizes="any" />
       </Head>
 
       {isLoading ? (

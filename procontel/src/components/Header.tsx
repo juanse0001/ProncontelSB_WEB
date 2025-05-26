@@ -41,7 +41,7 @@ const Header = () => {
     <header
       className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? "bg-white shadow-md" : "bg-primary-50"}`}
     >
-      <div className="container mx-auto px-4 py-3 md:py-4">
+      <div className="container mx-auto px-3 py-3 md:py-1">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <Link href="/">
