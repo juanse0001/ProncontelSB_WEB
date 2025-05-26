@@ -255,10 +255,6 @@ const CarruselDeServicios = () => {
     }
   }
 
-  const manejarIrAInventario = () => {
-    window.location.href = "/inventario"
-  }
-
   const visibleServices = servicios.slice(currentIndex, currentIndex + cardsToShow)
 
   return (
@@ -337,9 +333,9 @@ const CarruselDeServicios = () => {
                       <p className="text-gray-600 leading-relaxed text-sm md:text-base">{servicio.description}</p>
                     </div>
                     <div className="p-4 bg-gray-50 border-t border-gray-100 text-center">
-                      {servicio.title === "Gestión de inventario" ? (
+                      {servicio.title === "POS Integrado" ? (
                         <button
-                          onClick={manejarIrAInventario}
+                          onClick={() => window.location.href = "/pos-integrado"}
                           className={`${colorClasses.button} text-white px-4 md:px-6 py-2 rounded-lg text-sm font-medium focus:outline-none transition-all duration-300 transform hover:scale-105 active:scale-95`}
                         >
                           Pruébalo 100% gratis
