@@ -27,6 +27,8 @@ const Testimonials = () => {
   });
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:7000';
+
   // Cargar testimonios
   useEffect(() => {
     fetchTestimonials();
@@ -34,7 +36,7 @@ const Testimonials = () => {
 
   const fetchTestimonials = async () => {
     try {
-      const response = await fetch('http://localhost:7000/api/testimonials');
+      const response = await fetch(`${API_URL}/api/testimonials`);
       const data = await response.json();
       setTestimonials(Array.isArray(data) ? data : []);
     } catch (error) {
@@ -91,7 +93,7 @@ const Testimonials = () => {
     e.preventDefault();
     
     try {
-      const response = await fetch('http://localhost:7000/api/testimonials', {
+      const response = await fetch(`${API_URL}/api/testimonials`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
