@@ -16,9 +16,13 @@ const app = express();
 // Configuración de CORS
 const allowedOrigins = [
     'http://localhost:3000',
-    'https://proncontel-sb-q0pkqewu5-juanse0001s-projects.vercel.app',
+    'https://proncontel-sb-web-wk28.vercel.app',
+    'https://proncontel-sb-web-wk28-juanse0001s-projects.vercel.app',
     process.env.FRONTEND_URL
-].filter(Boolean); // Elimina valores undefined o null
+].filter(Boolean);
+
+console.log('Allowed Origins:', allowedOrigins);
+console.log('FRONTEND_URL desde process.env:', process.env.FRONTEND_URL);
 
 app.use(cors({
     origin: function(origin, callback) {
