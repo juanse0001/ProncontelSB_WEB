@@ -21,6 +21,9 @@ interface FormData {
 
 type FormErrors = Partial<Record<keyof FormData, string>> & { submit?: string };
 
+// Definir la URL base de la API usando la variable de entorno
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:7000';
+
 export default function Contacto() {
   const router = useRouter()
   const isMobile = useIsMobile()
@@ -90,7 +93,7 @@ export default function Contacto() {
     setIsSubmitting(true)
 
     try {
-      const response = await fetch('http://localhost:7000/api/contact', {
+      const response = await fetch(`${API_URL}/api/contact`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
