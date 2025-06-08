@@ -26,6 +26,7 @@ const AdminPanel = () => {
   const [replyBody, setReplyBody] = useState('');
   const [sendingReply, setSendingReply] = useState(false);
   const [replyError, setReplyError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
   const checkAuth = () => {
     const token = localStorage.getItem('admin_jwt_token');
@@ -152,10 +153,11 @@ const AdminPanel = () => {
         throw new Error(data.message || 'Error al enviar la respuesta por correo.');
       }
 
-      alert(data.message || 'Respuesta enviada por correo exitosamente.');
+      setSuccessMessage(data.message || '¡Respuesta enviada exitosamente!');
       setSelectedContact(null);
       setReplyBody('');
       fetchContacts();
+      setTimeout(() => setSuccessMessage(''), 4000);
 
     } catch (err) {
       console.error('Error al enviar respuesta por correo:', err);
@@ -228,6 +230,18 @@ const AdminPanel = () => {
                   {sendingReply ? 'Enviando...' : 'Enviar Correo'}
                 </button>
               </div>
+            </div>
+          </div>
+        )}
+        {successMessage && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <div className="bg-green-100 border border-green-400 rounded-xl shadow-lg p-6 max-w-xs w-full text-center flex flex-col items-center animate-fade-in">
+              <svg className="h-10 w-10 text-green-600 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+              <h3 className="text-lg font-bold text-green-800 mb-2">¡Respuesta enviada!</h3>
+              <p className="text-green-700 text-sm mb-1">{successMessage}</p>
+              <span className="text-xs text-gray-500">Esta ventana se cerrará automáticamente.</span>
             </div>
           </div>
         )}
