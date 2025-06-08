@@ -143,11 +143,19 @@ const MobileNavigation: React.FC = () => {
           <div className="p-4 border-t">
             <a
               href="tel:+573114678137"
-              className="flex items-center justify-center w-full py-3 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 active:bg-blue-800 transition-colors"
+              className="flex items-center justify-center w-full py-3 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 active:bg-blue-800 transition-colors mb-3"
             >
               <FiPhone className="mr-2" />
               <span>Llamar ahora</span>
             </a>
+            <Link
+              href="/admin/login"
+              className="flex items-center justify-center w-full py-3 px-4 bg-gray-800 text-white rounded-lg hover:bg-gray-900 active:bg-black transition-colors font-bold"
+              onClick={() => setIsOpen(false)}
+            >
+              <span className="mr-2">🔒</span>
+              <span>Login Admin</span>
+            </Link>
           </div>
         </div>
       )}
