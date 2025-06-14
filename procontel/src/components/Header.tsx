@@ -6,10 +6,11 @@ import { useRouter } from "next/router"
 import { useIsMobile } from "../hooks/useIsMobile"
 import MobileNavigation from "./MobileNavigation"
 import Logo from "./Logo"
-import { FiHome, FiBriefcase, FiTag, FiUsers, FiBookOpen, FiMail } from "react-icons/fi"
+import { FiHome, FiBriefcase, FiTag, FiUsers, FiBookOpen, FiMail, FiChevronDown, FiLogIn, FiExternalLink } from "react-icons/fi"
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false)
+  const [isLoginMenuOpen, setIsLoginMenuOpen] = useState(false)
   const router = useRouter()
   const { isMobile } = useIsMobile()
 
@@ -69,10 +70,42 @@ const Header = () => {
                 </Link>
               )
             })}
-            {/* Botón de login admin */}
-            <Link href="/admin/login" className="ml-4 px-4 py-2 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700 transition hidden md:inline-block">
-              Login
-            </Link>
+            
+            {/* Botón de login con menú desplegable */}
+            <div className="relative ml-4">
+              <button
+                onClick={() => setIsLoginMenuOpen(!isLoginMenuOpen)}
+                className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700 transition"
+              >
+                <FiLogIn className="mr-2" />
+                Acceso
+                <FiChevronDown className={`ml-2 transition-transform duration-200 ${isLoginMenuOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              {/* Menú desplegable */}
+              {isLoginMenuOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50">
+                  <Link
+                    href="/admin/login"
+                    className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+                    onClick={() => setIsLoginMenuOpen(false)}
+                  >
+                    <FiLogIn className="mr-2" />
+                    Login Admin
+                  </Link>
+                  <a
+                    href="https://www.luciesteban.com/index.php"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+                    onClick={() => setIsLoginMenuOpen(false)}
+                  >
+                    <FiExternalLink className="mr-2" />
+                    Ingresar al Sistema
+                  </a>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Mobile Navigation */}

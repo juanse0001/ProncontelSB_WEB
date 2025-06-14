@@ -29,21 +29,65 @@ const Testimonials = () => {
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:7000';
 
-  // Cargar testimonios
-  useEffect(() => {
-    fetchTestimonials();
-  }, []);
-
-  const fetchTestimonials = async () => {
+  // Función para cargar testimonios desde localStorage
+  const loadCachedTestimonials = () => {
     try {
-      const response = await fetch(`${API_URL}/api/testimonials`);
-      const data = await response.json();
-      setTestimonials(Array.isArray(data) ? data : []);
+      const cachedData = localStorage.getItem('testimonials_cache');
+      if (cachedData) {
+        const { data, timestamp } = JSON.parse(cachedData);
+        // Verificar si el caché tiene menos de 1 hora
+        const isCacheValid = Date.now() - timestamp < 3600000; // 1 hora en milisegundos
+        if (isCacheValid) {
+          return data;
+        }
+      }
     } catch (error) {
-      toast.error('No se pudieron cargar los testimonios. Por favor, verifica que el servidor esté corriendo.');
-      setTestimonials([]);
+      console.error('Error al cargar testimonios del caché:', error);
+    }
+    return null;
+  };
+
+  // Función para guardar testimonios en localStorage
+  const saveTestimonialsToCache = (data: Testimonial[]) => {
+    try {
+      const cacheData = {
+        data,
+        timestamp: Date.now()
+      };
+      localStorage.setItem('testimonials_cache', JSON.stringify(cacheData));
+    } catch (error) {
+      console.error('Error al guardar testimonios en caché:', error);
     }
   };
+
+  // Cargar testimonios
+  useEffect(() => {
+    const loadTestimonials = async () => {
+      // Intentar cargar desde caché primero
+      const cachedTestimonials = loadCachedTestimonials();
+      if (cachedTestimonials) {
+        setTestimonials(cachedTestimonials);
+      }
+
+      // Intentar obtener datos frescos del servidor
+      try {
+        const response = await fetch(`${API_URL}/api/testimonials`);
+        const data = await response.json();
+        if (Array.isArray(data) && data.length > 0) {
+          setTestimonials(data);
+          saveTestimonialsToCache(data);
+        } else if (!cachedTestimonials) {
+          toast.error('No se encontraron testimonios disponibles.');
+        }
+      } catch (error) {
+        if (!cachedTestimonials) {
+          toast.error('No se pudieron cargar los testimonios. Por favor, verifica que el servidor esté corriendo.');
+        }
+      }
+    };
+
+    loadTestimonials();
+  }, []);
 
   // Configurar rotación automática
   useEffect(() => {
@@ -112,7 +156,14 @@ const Testimonials = () => {
       toast.success('¡Gracias por tu testimonio! Será revisado por nuestro equipo.');
       setShowForm(false);
       setFormData({ author: '', text: '', company: '', rating: 5 });
-      fetchTestimonials();
+      
+      // Actualizar testimonios y caché después de enviar uno nuevo
+      const updatedResponse = await fetch(`${API_URL}/api/testimonials`);
+      const updatedData = await updatedResponse.json();
+      if (Array.isArray(updatedData)) {
+        setTestimonials(updatedData);
+        saveTestimonialsToCache(updatedData);
+      }
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'Error al enviar testimonio');
     }
