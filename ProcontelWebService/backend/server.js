@@ -7,6 +7,7 @@ require('dotenv').config();
 
 const adminAuthRoutes = require('./routes/authRoutes');
 const testimonialRoutes = require('./routes/testimonialRoutes');
+const formularioRoutes = require('./routes/formularioRoutes');
 const { protectAdminRoute } = require('./middleware/authMiddleware');
 
 const { createContact, getContacts, getContact, updateContactStatus, replyToContact } = require('./controllers/contactController');
@@ -67,6 +68,8 @@ mongoose.connect(MONGODB_URI, MONGODB_OPTIONS)
 app.use('/api/admin/auth', adminAuthRoutes);
 
 app.use('/api/testimonials', testimonialRoutes);
+
+app.use('/api/formularios', formularioRoutes);
 
 app.post('/api/contact', createContact);
 

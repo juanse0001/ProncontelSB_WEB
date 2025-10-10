@@ -4,9 +4,9 @@ const options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'API de Contacto - Procontel SB',
+      title: 'API de Procontel SB',
       version: '1.0.0',
-      description: 'API para el manejo de mensajes de contacto de Procontel SB',
+      description: 'API completa para el manejo de contactos, testimonios y formularios de Procontel SB',
       contact: {
         name: 'Procontel SB',
         email: 'procontelsb1@gmail.com',
@@ -20,6 +20,13 @@ const options = {
       }
     ],
     components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT'
+        }
+      },
       schemas: {
         Contact: {
           type: 'object',
@@ -72,7 +79,21 @@ const options = {
           }
         }
       }
-    }
+    },
+    tags: [
+      {
+        name: 'Formularios',
+        description: 'Endpoints para el manejo de formularios de necesidades'
+      },
+      {
+        name: 'Contactos',
+        description: 'Endpoints para el manejo de mensajes de contacto'
+      },
+      {
+        name: 'Testimonios',
+        description: 'Endpoints para el manejo de testimonios'
+      }
+    ]
   },
   apis: ['./routes/*.js'] // archivos que contienen las anotaciones
 };

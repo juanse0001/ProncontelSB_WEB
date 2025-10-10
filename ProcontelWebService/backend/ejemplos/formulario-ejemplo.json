@@ -1,0 +1,118 @@
+{
+  "ejemplo_formulario_completo": {
+    "nombreCompleto": "María González Pérez",
+    "nombreNegocio": "Farmacia San Rafael",
+    "numeroContacto": "+573001234567",
+    "correoElectronico": "maria.gonzalez@farmaciasanrafael.com",
+    "ubicacion": "Medellín",
+    "usaFacturacionElectronica": "No",
+    "tieneSistemaPOS": "No, pero me interesa",
+    "valorasEnFacturacion": ["Facilidad de uso", "Precio competitivo"],
+    "atractivoServicio": "Facturación ilimitada",
+    "mejoraSugerida": "Me gustaría que el sistema sea muy intuitivo y que tenga una interfaz amigable para personas que no son muy tecnológicas",
+    "beneficioAdicional": "Capacitación gratuita",
+    "nivelInteres": "Muy interesado",
+    "preferenciaContacto": "WhatsApp"
+  },
+  "endpoints_disponibles": {
+    "crear_formulario": {
+      "metodo": "POST",
+      "url": "/api/formularios",
+      "descripcion": "Crear un nuevo formulario (público)",
+      "autenticacion": "No requerida"
+    },
+    "obtener_formularios": {
+      "metodo": "GET",
+      "url": "/api/formularios",
+      "descripcion": "Obtener todos los formularios con filtros y paginación",
+      "autenticacion": "Bearer token requerido",
+      "parametros_query": {
+        "page": "Número de página (default: 1)",
+        "limit": "Elementos por página (default: 10)",
+        "estado": "Filtrar por estado",
+        "nivelInteres": "Filtrar por nivel de interés",
+        "fechaDesde": "Filtrar desde fecha (YYYY-MM-DD)",
+        "fechaHasta": "Filtrar hasta fecha (YYYY-MM-DD)",
+        "sortBy": "Campo para ordenar (default: fechaEnvio)",
+        "sortOrder": "Orden (asc/desc, default: desc)"
+      }
+    },
+    "obtener_formulario_por_id": {
+      "metodo": "GET",
+      "url": "/api/formularios/:id",
+      "descripcion": "Obtener un formulario específico por ID",
+      "autenticacion": "Bearer token requerido"
+    },
+    "actualizar_formulario": {
+      "metodo": "PUT",
+      "url": "/api/formularios/:id",
+      "descripcion": "Actualizar un formulario existente",
+      "autenticacion": "Bearer token requerido"
+    },
+    "actualizar_estado": {
+      "metodo": "PATCH",
+      "url": "/api/formularios/:id/estado",
+      "descripcion": "Actualizar solo el estado y notas de un formulario",
+      "autenticacion": "Bearer token requerido"
+    },
+    "eliminar_formulario": {
+      "metodo": "DELETE",
+      "url": "/api/formularios/:id",
+      "descripcion": "Eliminar un formulario",
+      "autenticacion": "Bearer token requerido"
+    },
+    "obtener_estadisticas": {
+      "metodo": "GET",
+      "url": "/api/formularios/estadisticas",
+      "descripcion": "Obtener estadísticas generales de formularios",
+      "autenticacion": "Bearer token requerido"
+    }
+  },
+  "estados_disponibles": [
+    "nuevo",
+    "en_revision", 
+    "contactado",
+    "prospecto_calificado",
+    "no_interesado"
+  ],
+  "niveles_interes": [
+    "Muy interesado",
+    "Interesado", 
+    "Poco interesado"
+  ],
+  "preferencias_contacto": [
+    "WhatsApp",
+    "Llamada telefónica",
+    "Correo electrónico"
+  ],
+  "opciones_facturacion_electronica": [
+    "Sí",
+    "No",
+    "Estoy en proceso de implementarlo"
+  ],
+  "opciones_sistema_pos": [
+    "Sí, ya tengo uno",
+    "No, pero me interesa",
+    "No lo necesito por ahora"
+  ],
+  "valores_facturacion": [
+    "Facilidad de uso",
+    "Precio competitivo",
+    "Soporte al cliente",
+    "Reportes e informes",
+    "Integración con otros sistemas"
+  ],
+  "atractivos_servicio": [
+    "Facturación ilimitada",
+    "Manejo de inventarios",
+    "Reportes con gráficas",
+    "Integración con otros sistemas",
+    "Asesoría personalizada"
+  ],
+  "beneficios_adicionales": [
+    "Descuentos por pago anual",
+    "Capacitación gratuita",
+    "Integraciones sin costo",
+    "Soporte premium"
+  ]
+}
